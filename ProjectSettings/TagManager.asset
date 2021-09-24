@@ -9,6 +9,7 @@ TagManager:
   - FinnishLine
   - Ground
   - Wall
+  - TeleportTrigger
   layers:
   - Default
   - TransparentFX

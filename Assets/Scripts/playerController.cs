@@ -8,8 +8,6 @@ public class playerController : MonoBehaviour
 {
     private Rigidbody rb;
 
-    private int count;
-
     private float movementX;
     private float movementY;
 
@@ -23,16 +21,10 @@ public class playerController : MonoBehaviour
     public float playerDown = 20.0f;
     public float maxSpeed = 15.0f;
 
-    public TextMeshProUGUI countText;
-    public GameObject winTextObject;   
-
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        count = 0;
-        SetCountText();
-        winTextObject.SetActive(false);
     }
 
     // Basic Movement
@@ -56,27 +48,9 @@ public class playerController : MonoBehaviour
         movementY = movementVector.y;
     }
 
-    // UI
-    void SetCountText()
-    {
-        countText.text = "Points: " + count.ToString();
-    }
     // Game Interactions
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("PickUp"))
-        {
-            other.gameObject.SetActive(false);
-            count = count + 1;
-
-            SetCountText();
-        }
-
-        if (other.gameObject.CompareTag("FinnishLine"))
-        {
-            winTextObject.SetActive(true);
-        }
-
         if (other.gameObject.CompareTag("JumpPad"))
         {
             rb.AddForce(Vector3.up * jumpPadHeght, ForceMode.Impulse);
@@ -87,6 +61,10 @@ public class playerController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
          if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
+         if (collision.gameObject.CompareTag("Box"))
         {
             isGrounded = true;
         }
@@ -103,6 +81,11 @@ public class playerController : MonoBehaviour
         {
             isGrounded = false;
         }
+        if (collision.gameObject.CompareTag("Box"))
+        {
+            isGrounded = false;
+        }
+
 
         if (collision.gameObject.CompareTag("Wall"))
         {
