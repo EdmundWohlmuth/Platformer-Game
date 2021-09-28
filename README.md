@@ -7,6 +7,12 @@ Controls:
 	Boost: LeftShift
 	Ground Pound: LeftCtrl
 
+Update 0.2.1:
+	
+	- Added temp model adjustment
+	- Replaced Rigidbody Controller with built-in CharacterController
+	- Begun transition into 3D
+
 - Update 0.2.0:
 	
 	- Added 'level 1'
