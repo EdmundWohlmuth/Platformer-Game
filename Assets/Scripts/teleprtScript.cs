@@ -5,10 +5,10 @@ using UnityEngine;
 public class teleprtScript : MonoBehaviour
 {
     public Transform teleportPos;
-    public GameObject playerCharacter;
+    public GameObject ThePlayer;
 
     private void OnTriggerEnter(Collider other)
     {
-        playerCharacter.transform.position = teleportPos.transform.position;
+            ThePlayer.transform.position = teleportPos.transform.position;        
     }
 }

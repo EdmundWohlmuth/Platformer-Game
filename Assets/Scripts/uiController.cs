@@ -10,7 +10,6 @@ public class uiController : MonoBehaviour
     private int starCount;
     private int livesCount;
 
-
     public TextMeshProUGUI countText;
     public GameObject winTextObject;
     public TextMeshProUGUI starText;
@@ -66,7 +65,7 @@ public class uiController : MonoBehaviour
 
         if (other.gameObject.CompareTag("TeleportTrigger"))
         {
-            livesCount = livesCount - 1;
+            livesCount = livesCount - 1;          
             SetLivesText();
         }
     }

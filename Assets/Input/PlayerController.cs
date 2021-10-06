@@ -41,6 +41,14 @@ public class @PlayerController : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""MoveMouse"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""326f717e-eae7-483a-8c00-0ade1b248300"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -120,6 +128,44 @@ public class @PlayerController : IInputActionCollection, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f620c264-00eb-45ea-9a00-e589b8cbbfa5"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveMouse"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""camera"",
+            ""id"": ""4a1ac9a4-6f6c-4761-bd13-3eca31a738e2"",
+            ""actions"": [
+                {
+                    ""name"": ""MosueLook"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""eb13032c-746c-47f7-b1ab-3ddd1209033b"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""9a4e9c97-456b-4705-ba41-78d4d93131ec"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MosueLook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -131,6 +177,10 @@ public class @PlayerController : IInputActionCollection, IDisposable
         m_keyboard_MoveKeys = m_keyboard.FindAction("MoveKeys", throwIfNotFound: true);
         m_keyboard_Run = m_keyboard.FindAction("Run", throwIfNotFound: true);
         m_keyboard_Jump = m_keyboard.FindAction("Jump", throwIfNotFound: true);
+        m_keyboard_MoveMouse = m_keyboard.FindAction("MoveMouse", throwIfNotFound: true);
+        // camera
+        m_camera = asset.FindActionMap("camera", throwIfNotFound: true);
+        m_camera_MosueLook = m_camera.FindAction("MosueLook", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -183,6 +233,7 @@ public class @PlayerController : IInputActionCollection, IDisposable
     private readonly InputAction m_keyboard_MoveKeys;
     private readonly InputAction m_keyboard_Run;
     private readonly InputAction m_keyboard_Jump;
+    private readonly InputAction m_keyboard_MoveMouse;
     public struct KeyboardActions
     {
         private @PlayerController m_Wrapper;
@@ -190,6 +241,7 @@ public class @PlayerController : IInputActionCollection, IDisposable
         public InputAction @MoveKeys => m_Wrapper.m_keyboard_MoveKeys;
         public InputAction @Run => m_Wrapper.m_keyboard_Run;
         public InputAction @Jump => m_Wrapper.m_keyboard_Jump;
+        public InputAction @MoveMouse => m_Wrapper.m_keyboard_MoveMouse;
         public InputActionMap Get() { return m_Wrapper.m_keyboard; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -208,6 +260,9 @@ public class @PlayerController : IInputActionCollection, IDisposable
                 @Jump.started -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnJump;
+                @MoveMouse.started -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnMoveMouse;
+                @MoveMouse.performed -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnMoveMouse;
+                @MoveMouse.canceled -= m_Wrapper.m_KeyboardActionsCallbackInterface.OnMoveMouse;
             }
             m_Wrapper.m_KeyboardActionsCallbackInterface = instance;
             if (instance != null)
@@ -221,14 +276,55 @@ public class @PlayerController : IInputActionCollection, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @MoveMouse.started += instance.OnMoveMouse;
+                @MoveMouse.performed += instance.OnMoveMouse;
+                @MoveMouse.canceled += instance.OnMoveMouse;
             }
         }
     }
     public KeyboardActions @keyboard => new KeyboardActions(this);
+
+    // camera
+    private readonly InputActionMap m_camera;
+    private ICameraActions m_CameraActionsCallbackInterface;
+    private readonly InputAction m_camera_MosueLook;
+    public struct CameraActions
+    {
+        private @PlayerController m_Wrapper;
+        public CameraActions(@PlayerController wrapper) { m_Wrapper = wrapper; }
+        public InputAction @MosueLook => m_Wrapper.m_camera_MosueLook;
+        public InputActionMap Get() { return m_Wrapper.m_camera; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(CameraActions set) { return set.Get(); }
+        public void SetCallbacks(ICameraActions instance)
+        {
+            if (m_Wrapper.m_CameraActionsCallbackInterface != null)
+            {
+                @MosueLook.started -= m_Wrapper.m_CameraActionsCallbackInterface.OnMosueLook;
+                @MosueLook.performed -= m_Wrapper.m_CameraActionsCallbackInterface.OnMosueLook;
+                @MosueLook.canceled -= m_Wrapper.m_CameraActionsCallbackInterface.OnMosueLook;
+            }
+            m_Wrapper.m_CameraActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @MosueLook.started += instance.OnMosueLook;
+                @MosueLook.performed += instance.OnMosueLook;
+                @MosueLook.canceled += instance.OnMosueLook;
+            }
+        }
+    }
+    public CameraActions @camera => new CameraActions(this);
     public interface IKeyboardActions
     {
         void OnMoveKeys(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnMoveMouse(InputAction.CallbackContext context);
+    }
+    public interface ICameraActions
+    {
+        void OnMosueLook(InputAction.CallbackContext context);
     }
 }
