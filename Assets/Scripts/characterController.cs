@@ -17,9 +17,6 @@ public class characterController : MonoBehaviour
     public float maxJumpTime = 0.5f;
     public float fallMultiplier = 2.0f;
 
-    Dictionary<int, float> initalJumpVelocities = new Dictionary<int, float>();
-    Dictionary<int, float> jumpGravities = new Dictionary<int, float>();
-
     int jumpCount = 0;
 
     float gravity = -9.8f;
@@ -145,11 +142,7 @@ public class characterController : MonoBehaviour
         currentMovement.x = currentMovementInput.x * moveSpeed;
         currentMovement.z = currentMovementInput.y * moveSpeed;
 
-        movement = appliedMovement;
-
         //Need diffrent variables for the same value
-        movement = cameraTransform.forward * appliedMovement.z + cameraTransform.right * appliedMovement.x;
-        appliedMovement.y = 0f;
 
         // isgrounded bool
         isMovementPressed = currentMovementInput.x != 0 || currentMovementInput.y != 0;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public class uiController : MonoBehaviour
 {
@@ -39,6 +40,14 @@ public class uiController : MonoBehaviour
     void SetLivesText()
     {
         livesText.text = "Lives: " + livesCount.ToString();
+    }
+
+    private void Update()
+    {
+        if (livesCount <= 0)
+        {
+            SceneManager.LoadScene("GameOver");
+        }
     }
 
     //Interations with coins/stars
