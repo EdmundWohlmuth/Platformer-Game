@@ -2,3 +2,15 @@ Music:
 	Awesome Call by Kevin MacLeod - https://incompetech.filmmusic.io/artists/kevin-macleod/page-84
 	C-Funk vy Kevin Macleod - https://incompetech.filmmusic.io/artists/kevin-macleod/page-84
 	Snare Bounce Polka by Kevin MacLeod - https://incompetech.filmmusic.io/artists/kevin-macleod/page-85
+
+sfx:
+	"Free Sounds Library"
+
+
+	Free Sound Effects Site.
+
+
+	Licence: License: Attribution 4.0 International (CC BY 4.0). You are allowed to use sound effects free of charge and royalty free in your multimedia projects for commercial or non-commercial purposes.
+
+
+	http://www.freesoundslibrary.com

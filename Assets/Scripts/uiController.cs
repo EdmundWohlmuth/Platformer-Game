@@ -70,6 +70,14 @@ public class uiController : MonoBehaviour
             starCount = starCount + 1;
 
             SetStarText();
+            StartCoroutine(WaitBeforeEnd());
+
+        }
+
+        IEnumerator WaitBeforeEnd()
+        {
+            yield return new WaitForSeconds(3);
+            SceneManager.LoadScene(0);
         }
 
         if (other.gameObject.CompareTag("TeleportTrigger"))
