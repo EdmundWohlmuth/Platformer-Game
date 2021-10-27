@@ -6,9 +6,11 @@ using UnityEngine.InputSystem;
 public class characterController : MonoBehaviour
 {
 
-    //declertions
+    //declerations
     PlayerController playerController;
     CharacterController charController;
+
+    public Transform cam;
 
     public float moveSpeed = 5.0f;
     public float runSpeed = 10.0f;
