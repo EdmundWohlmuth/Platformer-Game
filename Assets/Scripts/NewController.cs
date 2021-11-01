@@ -14,16 +14,21 @@ public class NewController : MonoBehaviour
 
     private Vector3 playerVelocity;
 
-    private bool groundedPlayer;
+    public bool groundedPlayer;
 
     private float playerSpeed = 10.0f;
     private float gravityValue = -9.81f;
     private float fallMultiplier = 2.0f;
     private float rotationSpeed = 8.0f;
+    private float waitTime = 0.5f;
 
-    private float jump = 3.5f;
+    private float lowJump = 3.5f;
+    private float midJump = 5f;
+    private float highJump = 7.0f;
 
-    public int jumpType = 0;
+    private float[] jump = new float[3];
+
+    public int jumpCount = 0;
 
     // ---------- Enable / Disable -------------------------------------------------------------
     private void OnEnable()
@@ -43,6 +48,11 @@ public class NewController : MonoBehaviour
         //establish controller / forward
         controller = gameObject.GetComponent<CharacterController>();
         cameraMainTransform = Camera.main.transform;
+
+        //Jump Array
+        jump[0] = lowJump;
+        jump[1] = midJump;
+        jump[2] = highJump;
     }
 
     void Update()
@@ -70,11 +80,6 @@ public class NewController : MonoBehaviour
         }
     }
 
-    void PlayerRotation()
-    {
-
-    }
-
     void isGroudned()
     {
         // Grounded Check
@@ -82,12 +87,12 @@ public class NewController : MonoBehaviour
         bool isFalling = playerVelocity.y <= 0.0f;
 
         if (groundedPlayer && playerVelocity.y < 0)
-        {
-            playerVelocity.y = 0f;
+        {           
+            playerVelocity.y = 0;         
         }
         // Falling Check
         if (isFalling)
-        {
+        {           
             playerVelocity.y = playerVelocity.y + (gravityValue * fallMultiplier * Time.deltaTime);
         }
     }
@@ -95,13 +100,24 @@ public class NewController : MonoBehaviour
     void JumpControl()
     {
         // Jump Control
-        if (jumpControl.action.triggered && groundedPlayer && jumpType == 0)
+        if (jumpControl.action.triggered && groundedPlayer)
         {
-            playerVelocity.y += Mathf.Sqrt(jump * -3.0f * gravityValue);            
+            playerVelocity.y += Mathf.Sqrt(jump[jumpCount] * -3.0f * gravityValue);
+            jumpCount++;           
+        }
+        if (jumpCount == 3)
+        {
+            jumpCount = 0;
         }
 
         playerVelocity.y += gravityValue * fallMultiplier * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
+    }
+
+    IEnumerator jumpResetRoutine()
+    {
+        yield return new WaitForSeconds(waitTime);
+        jumpCount = 0;
     }
 }
 
