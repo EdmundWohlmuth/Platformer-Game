@@ -8,8 +8,8 @@ using UnityEngine.SceneManagement;
 public class uiController : MonoBehaviour
 {
     private int coinCount;
-    private int starCount;
-    private int livesCount;
+    static int starCount = 0;
+    static int livesCount = 3;
 
     public TextMeshProUGUI countText;
     public GameObject winTextObject;
@@ -20,8 +20,6 @@ public class uiController : MonoBehaviour
     void Start()
     {
         coinCount = 0;
-        starCount = 0;
-        livesCount = 3;
         SetCountText();
         SetStarText();
         SetLivesText();

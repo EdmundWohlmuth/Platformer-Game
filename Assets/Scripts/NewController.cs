@@ -12,18 +12,26 @@ public class NewController : MonoBehaviour
 
     private Transform cameraMainTransform;
 
+    private Coroutine currentJumpResetRoutine = null;
+
     private Vector3 playerVelocity;
 
-    private bool groundedPlayer;
+    public bool isGrounded;
+    private bool isJumping;
 
     private float playerSpeed = 10.0f;
     private float gravityValue = -9.81f;
     private float fallMultiplier = 2.0f;
     private float rotationSpeed = 8.0f;
 
-    private float jump = 3.5f;
+    public float jumpResetTime = 0.5f;
+    private float jumpResetMax = 0.5f;
+
+    private float[] jump = new float[3];
 
     public int jumpType = 0;
+
+ 
 
     // ---------- Enable / Disable -------------------------------------------------------------
     private void OnEnable()
@@ -43,13 +51,19 @@ public class NewController : MonoBehaviour
         //establish controller / forward
         controller = gameObject.GetComponent<CharacterController>();
         cameraMainTransform = Camera.main.transform;
+
+        //Jump arrays
+        jump[0] = 3.5f;
+        jump[1] = 5f;
+        jump[2] = 7.5f;
     }
 
     void Update()
     {
         MoveControl();       
         JumpControl();
-        isGroudned();
+        TimerStarted();
+        GravityControl();
     }
 // ------------------ Controls -----------------------------------------------------------------
     void MoveControl()
@@ -69,21 +83,22 @@ public class NewController : MonoBehaviour
            // gameObject.transform.forward = move;
         }
     }
-
-    void PlayerRotation()
-    {
-
-    }
-
-    void isGroudned()
+// ----------------- Gravity -------------------------------------------------------------------
+    void GravityControl()
     {
         // Grounded Check
-        groundedPlayer = controller.isGrounded;
+        isGrounded = controller.isGrounded;
         bool isFalling = playerVelocity.y <= 0.0f;
 
-        if (groundedPlayer && playerVelocity.y < 0)
+      //  if (isGrounded == true)
+      //  {
+      //     currentJumpResetRoutine = StartCoroutine(jumpResetRoutine());
+      //  }
+
+        if (isGrounded && playerVelocity.y < 0) 
         {
-            playerVelocity.y = 0f;
+            isJumping = true;
+            playerVelocity.y = -0.5f;           
         }
         // Falling Check
         if (isFalling)
@@ -91,17 +106,58 @@ public class NewController : MonoBehaviour
             playerVelocity.y = playerVelocity.y + (gravityValue * fallMultiplier * Time.deltaTime);
         }
     }
-
+// ---------------- Jump Code -------------------------------------------------------
     void JumpControl()
     {
         // Jump Control
-        if (jumpControl.action.triggered && groundedPlayer && jumpType == 0)
+        if (jumpControl.action.triggered && isGrounded)
         {
-            playerVelocity.y += Mathf.Sqrt(jump * -3.0f * gravityValue);            
+         //   if (jumpType < 3 && currentJumpResetRoutine != null)
+         //   {
+         //       StopCoroutine(currentJumpResetRoutine);
+         //   }
+            playerVelocity.y += Mathf.Sqrt(jump[jumpType] * -3.0f * gravityValue);
+            jumpType++;
+        }
+        if (jumpType == 3)
+        {
+            jumpType = 0;
         }
 
         playerVelocity.y += gravityValue * fallMultiplier * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
     }
+
+// ---------------- Jump Reset ------------------------------------------------
+
+    void TimerStarted()
+    {
+        if (isGrounded && isJumping)
+        {
+            jumpResetTime -= Time.deltaTime;
+        }
+        else
+        {
+            return;
+        }
+        
+        if (jumpResetTime <= 0.0f)
+        {
+            jumpResetTime = jumpResetMax;
+            TimerEnded();
+        }
+    }
+
+    void TimerEnded()
+    {
+        jumpType = 0;
+    }
+
+   // IEnumerator jumpResetRoutine()
+   // {
+   //     yield return new WaitForSeconds(1f);
+   //     //jumpType = 0;
+   //     Debug.Log("IEnumerator has run");
+   // }
 }
 
