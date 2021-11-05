@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 142c5d484d1fe1942b7aed3a4d36c07c
   - enabled: 1
+    path: Assets/Scenes/HubWorld.unity
+    guid: 33d91392f97596e4699423cf8d9ce141
+  - enabled: 1
     path: Assets/Scenes/TallTallTower.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
