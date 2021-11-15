@@ -16,6 +16,8 @@ public class uiController : MonoBehaviour
     public TextMeshProUGUI starText;
     public TextMeshProUGUI livesText;
 
+    public GameObject portalTwo;
+
 
     void Start()
     {
@@ -24,6 +26,11 @@ public class uiController : MonoBehaviour
         SetStarText();
         SetLivesText();
         winTextObject.SetActive(false);
+        // Enable Portals
+        if (starCount >= 1)
+        {
+            portalTwo.SetActive(true);
+        }
     }
 
     //Sets the coin count
@@ -63,7 +70,6 @@ public class uiController : MonoBehaviour
         {
             winTextObject.SetActive(true);
             other.gameObject.SetActive(false);
-
 
             starCount = starCount + 1;
 

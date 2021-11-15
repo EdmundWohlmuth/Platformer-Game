@@ -108,6 +108,7 @@ public class NewController : MonoBehaviour
         {
             playerVelocity.y += Mathf.Sqrt(jump[jumpType] * -3.0f * gravityValue);
             jumpType++;
+            jumpResetTime = jumpResetMax;
         }
         if (jumpType == 3)
         {
