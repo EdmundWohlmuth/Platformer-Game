@@ -15,13 +15,14 @@ public class NewController : MonoBehaviour
     private Vector3 playerVelocity;
 
     public bool isGrounded;
+    public bool canWallJump;
     private bool isJumping;
 
     private float playerSpeed = 10.0f;
     private float gravityValue = -9.81f;
     private float fallMultiplier = 2.0f;
     private float rotationSpeed = 8.0f;
-
+    private float wallJump = 5f;
 
     public float jumpResetTime = 0.5f;
     private float jumpResetMax = 0.5f;
@@ -119,7 +120,26 @@ public class NewController : MonoBehaviour
         controller.Move(playerVelocity * Time.deltaTime);
     }
 
-// ---------------- Jump Reset ------------------------------------------------
+    // ---------------- Wall Jump -----------------------------------------------------------
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (!isGrounded && hit.normal.y < 0.1f && canWallJump)
+        {
+            if (jumpControl.action.triggered)
+            {
+                playerVelocity.y += Mathf.Sqrt(wallJump * -3.0f * gravityValue);
+                playerVelocity += hit.normal * playerSpeed;
+            }        
+        }
+
+        if (isGrounded)
+        {
+            canWallJump = true;
+        }
+              
+    }
+
+    // ---------------- Jump Reset ------------------------------------------------
 
     void TimerStarted()
     {
