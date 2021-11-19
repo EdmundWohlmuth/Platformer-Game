@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/TallTallTower.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
+    path: Assets/Scenes/Busy City.unity
+    guid: 0b606fe644ab2bb48b04f42b356961d6
+  - enabled: 1
     path: Assets/Scenes/GameOver.unity
     guid: f0c41a798174c784abbe6f9c30d21dca
   m_configObjects: {}

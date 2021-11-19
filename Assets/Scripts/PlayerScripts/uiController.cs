@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class uiController : MonoBehaviour
 {
     private int coinCount;
-    static int starCount = 0;
+    static int starCount = 99;
     static int livesCount = 3;
 
     public TextMeshProUGUI countText;

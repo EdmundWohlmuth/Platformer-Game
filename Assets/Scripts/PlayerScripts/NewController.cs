@@ -13,16 +13,22 @@ public class NewController : MonoBehaviour
     private Transform cameraMainTransform;
 
     private Vector3 playerVelocity;
+    private Vector3 move;
+    private Vector2 movement;
 
     public bool isGrounded;
     public bool canWallJump;
     private bool isJumping;
+    public bool hasWallJumped = false;
 
     private float playerSpeed = 10.0f;
     private float gravityValue = -9.81f;
     private float fallMultiplier = 2.0f;
     private float rotationSpeed = 8.0f;
     private float wallJump = 5f;
+
+    private float wallJumpTimer = 0.5f;
+    private float wallJumpTimerMax = 0.5f;
 
     public float jumpResetTime = 0.5f;
     private float jumpResetMax = 0.5f;
@@ -62,6 +68,7 @@ public class NewController : MonoBehaviour
     {
         MoveControl();       
         JumpControl();
+        WallJumpTimer();
         TimerStarted();
         GravityControl();
     }
@@ -69,8 +76,8 @@ public class NewController : MonoBehaviour
     void MoveControl()
     {
         //Movement
-        Vector2 movement = movementControl.action.ReadValue<Vector2>();
-        Vector3 move = new Vector3(movement.x, 0, movement.y);
+        movement = movementControl.action.ReadValue<Vector2>();
+        move = new Vector3(movement.x, 0, movement.y);
         move = cameraMainTransform.forward * move.z + cameraMainTransform.right * move.x;
         move.y = 0f;
         controller.Move(move * Time.deltaTime * playerSpeed);
@@ -123,20 +130,21 @@ public class NewController : MonoBehaviour
     // ---------------- Wall Jump -----------------------------------------------------------
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (!isGrounded && hit.normal.y < 0.1f && canWallJump)
+        if (!isGrounded && hit.normal.y < 0.1f)
         {
             if (jumpControl.action.triggered)
             {
-                playerVelocity.y += Mathf.Sqrt(wallJump * -3.0f * gravityValue);
-                playerVelocity += hit.normal * playerSpeed;
-            }        
-        }
+                wallJumpTimer = wallJumpTimerMax;
 
-        if (isGrounded)
-        {
-            canWallJump = true;
-        }
-              
+                playerVelocity.y += Mathf.Sqrt(wallJump * -3.0f * gravityValue);                
+                playerVelocity += hit.normal * playerSpeed;  
+                
+                hasWallJumped = true;
+
+                Debug.Log("Would've wall jumped");
+                WallJumpTimer();                
+            }
+        }    
     }
 
     // ---------------- Jump Reset ------------------------------------------------
@@ -163,5 +171,26 @@ public class NewController : MonoBehaviour
     {
         jumpType = 0;
     }
+
+    // ----------- wall jump timer ------------------------------------------------------------
+  
+    void WallJumpTimer()
+    {
+        if (hasWallJumped) // velocity timer
+        {
+            wallJumpTimer -= Time.deltaTime;        
+        }
+        else
+        {
+            return;
+        }
+
+        if (wallJumpTimer <= 0.0f)
+        {
+            playerVelocity = Vector3.zero;           
+            hasWallJumped = false;
+        }
+    }
+
 }
 
