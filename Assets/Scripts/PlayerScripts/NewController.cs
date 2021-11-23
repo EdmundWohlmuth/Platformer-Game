@@ -137,7 +137,7 @@ public class NewController : MonoBehaviour
                 wallJumpTimer = wallJumpTimerMax;
 
                 playerVelocity.y += Mathf.Sqrt(wallJump * -3.0f * gravityValue);                
-                playerVelocity += hit.normal * playerSpeed;  
+                playerVelocity += hit.normal * 15f;  
                 
                 hasWallJumped = true;
 
