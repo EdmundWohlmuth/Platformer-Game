@@ -109,3 +109,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98b6c22ac794ca049bfdf5383884858f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TadaSound: {fileID: 8300000, guid: 24fab355a856ab74c92a7daa3261fee1, type: 3}

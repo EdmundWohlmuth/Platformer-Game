@@ -4,6 +4,8 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using UnityEngine.Playables;
+using UnityEngine.InputSystem;
 
 public class uiController : MonoBehaviour
 {
@@ -11,13 +13,30 @@ public class uiController : MonoBehaviour
     static int starCount = 0;
     static int livesCount = 3;
 
+    public InputActionReference movementControl;
+    public InputActionReference jumpControl;
+
     public TextMeshProUGUI countText;
     public GameObject winTextObject;
     public TextMeshProUGUI starText;
     public TextMeshProUGUI livesText;
 
     public GameObject portalTwo;
+    public GameObject coinStar;
 
+    public PlayableDirector timeline;
+
+    private void OnEnable()
+    {
+        movementControl.action.Enable();
+        jumpControl.action.Enable();
+    }
+
+    private void OnDisable()
+    {
+        movementControl.action.Disable();
+        jumpControl.action.Disable();
+    }
 
     void Start()
     {
@@ -95,6 +114,23 @@ public class uiController : MonoBehaviour
             livesCount = livesCount - 1;          
             SetLivesText();
         }
+
+        if (coinCount == 50)
+        {        
+            timeline.Play();
+            StartCoroutine(starCutScene());
+        }
+
+        IEnumerator starCutScene()
+        {
+            OnDisable();
+            Debug.Log("The WORLD!");
+            yield return new WaitForSeconds(5);
+            Debug.Log("Time Moves again...");
+            OnEnable();
+        }
+
+
     }
 }
 
