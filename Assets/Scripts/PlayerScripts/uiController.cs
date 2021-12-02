@@ -11,7 +11,7 @@ public class uiController : MonoBehaviour
 {
     private int coinCount;
     static int starCount = 0;
-    static int livesCount = 3;
+    static int livesCount = 3;   
 
     public InputActionReference movementControl;
     public InputActionReference jumpControl;
@@ -25,6 +25,8 @@ public class uiController : MonoBehaviour
     public GameObject coinStar;
 
     public PlayableDirector timeline;
+
+    private bool hasntCollected;
 
     private void OnEnable()
     {
@@ -40,6 +42,7 @@ public class uiController : MonoBehaviour
 
     void Start()
     {
+        hasntCollected = true;
         coinCount = 0;
         SetCountText();
         SetStarText();
@@ -115,8 +118,9 @@ public class uiController : MonoBehaviour
             SetLivesText();
         }
 
-        if (coinCount == 50)
-        {        
+        if (coinCount == 50 && hasntCollected)
+        {
+            hasntCollected = false;
             timeline.Play();
             StartCoroutine(starCutScene());
         }
