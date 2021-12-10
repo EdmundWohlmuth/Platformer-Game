@@ -1,35 +1,19 @@
-# Roll-A-Ball-Iterative
- A Project for Iterative Design
+The Platformer Game						
+By: Edmund Wohlmuth
+using Unity 2020.3.14f1
 
-Controls:
-	Movement: WASD
-	Jump: Spacebar
-	Boost: LeftShift
-	Ground Pound: LeftCtrl
+The Platformer Game is a third person platforming-collectathon game made for my 1st Year Game Development Iterative Desgin class. It is the first game I have developed using the Unity engine and was developed over the course of the first semester in two week "sprints".
 
-Update 0.2.1:
-	
-	- Added temp model adjustment
-	- Replaced Rigidbody Controller with built-in CharacterController
-	- Begun transition into 3D
+The main goal behind The Platformer Game was to create a fun player controller that had simple but enjoyable movement and while it is no Mario I am quite happy with how it turned out.
 
-- Update 0.2.0:
-	
-	- Added 'level 1'
-	- Added the following Packages:
-				- Cinemachine
-				- ProBuilder
-				- ProGrids
-	- Cleaned up playerController script by moving non movment scripts to new scripts
-	- Replaced 'PickUp' cubes with 'Coins'
-	- Added sound when picking up coins
-	- Added Lives and respawn System ( will add 'game over' later )
+Triple Jumping:
+On consecutive jumps the player's jump height increases culmnating in the third and heighest jump, afterwards returning to the initial jump height, if the player put enough time between jumps the height of the jumps will remain at the initial jump height.
 
-Developers note:
-	This game as a 2d reach the finish game is not complete and I will probably transision it to a 3d game akin
-to Banjo-Kazooie or Super Mario 64 once I transiosion from Rigidbody to Character Controller and a new camera system,
-I'm just trying not to bite off more than I can chew. - Edmund
 
-----Depreciated----
+Wall Jumping:
+When the player moves into a wall while airbone and press the jump key the player charcter will preform a wall jump sending the character away from the wall and allowing them to reach higher places, in conjunction with the triple jump the options for player movement creates some fun combinations.
 
-Go thorugh the white rectangle to win.
+
+There is a total of six stars in the game spanning two levels which can be reaches via the portals in the Hub world.
+
+Music used in The Platformer Game from: Kevin MacLeod
