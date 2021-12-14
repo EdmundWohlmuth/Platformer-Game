@@ -14,8 +14,8 @@ On consecutive jumps the player's jump height increases culmnating in the third 
 
 # Wall Jumping:
 When the player moves into a wall while airbone and press the jump key the player charcter will preform a wall jump sending the character away from the wall and allowing them to reach higher places, in conjunction with the triple jump the options for player movement creates some fun combinations.
-![WallJumpTest](https://user-images.githubusercontent.com/74564582/146002752-53ba1182-c8dd-4aa5-b079-5b725cdfb6df.gif)
 
+![WallJumpTest](https://user-images.githubusercontent.com/74564582/146002752-53ba1182-c8dd-4aa5-b079-5b725cdfb6df.gif)
 
 There is a total of six stars in the game spanning two levels which can be reaches via the portals in the Hub world.
 
